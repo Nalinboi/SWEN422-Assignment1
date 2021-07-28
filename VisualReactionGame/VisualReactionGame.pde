@@ -26,8 +26,19 @@ void setup() {
   background(black); // The background colour (a dark grey). We could have 0 for black or 255 for white.
 }
 
+void reset(){
+  // This is a random time which is between 3-10 seconds after the current time.
+  randomAppearTime = millis() + random(2000, 8000); // RandomAppearTime is when the shape randomly changes colour
+  
+  shapeClickedTime = 0; // The time the shape is clicked is put in a global variable for the results page to present. 
+  
+  currentResult = 0;
+  reactionTimeResults = new ArrayList<Float>();
+}
+
 void nextLevel() {
   if(level == 0) { // Main menu
+    reset();
     level = 1; // If we are in the main menu, the next level (1) will be the reaction game.
     
     // We store a random time between 3-10 seconds ahead of the current time. 
@@ -44,7 +55,8 @@ void nextLevel() {
     
     
   } else { // Results page 
-    level = 0; // If we are in the results page, the next level (0) will be the main menu.
+    level = 1; // If we are in the results page, the next level (1) will be the game again.
+    randomAppearTime = millis() + random(2000, 8000); // This is when the shape will change colour
   }
 }
 
@@ -53,6 +65,9 @@ void keyPressed()
   if (keyCode == 32) { // 32 is ascii for spacebar     
     nextLevel(); // If the user presses spacebar, the user will go to the next level
   } 
+  //else if (keyCode == 27) { // 27 is ascii for escape - here you should use this to go to the main menu     
+  //  nextLevel(); //
+  //} 
 }
 
 //void mouseClicked(){
@@ -74,6 +89,26 @@ void mainMenu() {
   fill(black); // Fill colour is blue
   //textFont(title);
   text("Main Menu:\n Click or press space to play the game", width/2, 100);
+  
+  
+  textSize(64);
+  fill(green);
+  text("Green", width/5, 300);
+  fill(red);
+  text("Red", width/5, 400);  
+  
+  fill(black);
+  text("Black", 2*width/5, 300);
+  text("White", 2*width/5, 400);  
+  textSize(32);
+  
+  rect((3*width/5)-100, 325-100, 200, 200); // the rectangle you are supposed to click on for reaction times.
+  ellipse((4*width/5), 325, 200, 200); // the rectangle you are supposed to click on for reaction times.
+  //ellipse((4*width/5)-150, 350-150, 300, 300); // the rectangle you are supposed to click on for reaction times.
+
+  
+  
+  
 }
 
 void level1() {
@@ -107,9 +142,12 @@ void results() {
   for (int i = 0; i < resultsListSize; i++) {
     text((i+1) + ") " + reactionTimeResults.get(i) + "ms", (width/2)-200, 300 + (i*50));
   }
-  
+  stroke(2);
+  line(width/2, 200, width/2, 600);    
+  noStroke(); // No stroke on the shapes
+
   if (resultsListSize == 5) {
-      text("Summary: ", (width/2)+200, 250);
+      text("Summary of \nall good results: ", (width/2)+200, 200);
       text("Fastest: " + Collections.max(reactionTimeResults), (width/2)+200, 300);
       text("Slowest: " + Collections.min(reactionTimeResults), (width/2)+200, 350);
       text("Average: " + calculateAverage(), (width/2)+200, 400);
@@ -122,6 +160,5 @@ float calculateAverage(){
   for(float f : reactionTimeResults) {
     sum += f;
   }
-  print("sum = " + sum + " size = " + reactionTimeResults.size());
   return sum/reactionTimeResults.size();
 }
