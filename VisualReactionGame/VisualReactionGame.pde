@@ -1,3 +1,5 @@
+import java.util.*;
+
 float level = 0;  // There are three screens or 'levels' - the main menu, the reaction game, and the results page
 
 color red = color(255,0,0);
@@ -36,7 +38,10 @@ void nextLevel() {
     shapeClickedTime = millis(); // We put results here as this method is only called once on an event, rather than forever in the draw sections
       
     currentResult = shapeClickedTime - (randomAppearTime);
-    reactionTimeResults.add(0, currentResult); // We append the result to the list of results
+    if(currentResult > 0){ 
+      reactionTimeResults.add(0, currentResult); // We append the result to the list of results if it was valid
+    }
+    
     
   } else { // Results page 
     level = 0; // If we are in the results page, the next level (0) will be the main menu.
@@ -105,9 +110,18 @@ void results() {
   
   if (resultsListSize == 5) {
       text("Summary: ", (width/2)+200, 250);
-      text("Fastest: ", (width/2)+200, 300);
-      text("Slowest: ", (width/2)+200, 350);
-      text("Average: ", (width/2)+200, 400);
-      text("Deviation: ", (width/2)+200, 450);
+      text("Fastest: " + Collections.max(reactionTimeResults), (width/2)+200, 300);
+      text("Slowest: " + Collections.min(reactionTimeResults), (width/2)+200, 350);
+      text("Average: " + calculateAverage(), (width/2)+200, 400);
+      //text("Deviation: ", (width/2)+200, 450);
   }
+}
+
+float calculateAverage(){
+  float sum = 0;
+  for(float f : reactionTimeResults) {
+    sum += f;
+  }
+  print("sum = " + sum + " size = " + reactionTimeResults.size());
+  return sum/reactionTimeResults.size();
 }
