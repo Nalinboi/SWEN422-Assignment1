@@ -17,6 +17,9 @@ float shapeClickedTime = 0; // The time the shape is clicked is put in a global 
 float currentResult = 0;
 ArrayList<Float> reactionTimeResults = new ArrayList<Float>();
 
+String colorOrBlack = "COLOR";
+String squareOrCircle  = "SQUARE";
+
 void setup() {
   size(1500, 750); // size of the screen
   //fullScreen();
@@ -64,10 +67,25 @@ void keyPressed()
 {
   if (keyCode == 32) { // 32 is ascii for spacebar     
     nextLevel(); // If the user presses spacebar, the user will go to the next level
-  } 
-  //else if (keyCode == 27) { // 27 is ascii for escape - here you should use this to go to the main menu     
-  //  nextLevel(); //
-  //} 
+  } else if (keyCode == 27) { // 27 is ascii for escape - here you should use this to go to the main menu     
+    nextLevel(); //
+  }
+
+  if (level == 0) {
+    if (keyCode == 90) { // 90 ascii for "z"
+      colorOrBlack = "COLOR";
+      println("z");
+    } else if (keyCode == 88) { // 120 ascii for "x"
+      colorOrBlack = "BLACK";
+      println("x");
+    } else if (keyCode == 78) { // 78 ascii for "n"
+      squareOrCircle  = "SQUARE";
+      println("n");
+    } else if (keyCode == 77) { // 78 ascii for "M"
+      squareOrCircle  = "CIRCLE";
+      println("m");
+    }
+  }
 }
 
 //void mouseClicked(){
@@ -85,30 +103,40 @@ void draw() {
 }
 
 void mainMenu() {
-  background(white);
+  background(white); // have to keep calling this so a new screen is rendered
   fill(black); // Fill colour is blue
   //textFont(title);
-  text("Main Menu:\n Click or press space to play the game", width/2, 100);
+  text("Main Menu:\n Click or press space to play the game", width/2, 100); // the title
   
   
-  textSize(64);
+  textSize(64); // FIRST OPTION, GREEN AND RED
   fill(green);
   text("Green", width/5, 300);
   fill(red);
-  text("Red", width/5, 400);  
+  text("Red", width/5, 400);
   
-  fill(black);
+  
+  fill(black); // SECOND OPTION, BLACK AND WHITE
   text("Black", 2*width/5, 300);
   text("White", 2*width/5, 400);  
   textSize(32);
   
+  //THIRD OPTION, SQUARE
   rect((3*width/5)-100, 325-100, 200, 200); // the rectangle you are supposed to click on for reaction times.
+  
+  //FOURTH OPTION, CIRCLE
   ellipse((4*width/5), 325, 200, 200); // the rectangle you are supposed to click on for reaction times.
-  //ellipse((4*width/5)-150, 350-150, 300, 300); // the rectangle you are supposed to click on for reaction times.
-
   
-  
-  
+  stroke(red); // RED OUTLINE TO SHOW WHAT OPTION IS THE SELECTED ONE
+  strokeWeight(6);
+  int selection1 = colorOrBlack.equals("COLOR") ? 1 : 2;  // EITHER SELECTES GREEN AND RED OR BLACK AND WHITE
+  int selection2 = squareOrCircle.equals("SQUARE") ? 3 : 4;   // EITEHR SELECTES POSITIONING FOR SQUARE OR CIRCLE. 
+  //println(colorOrBlack);
+  noFill();
+  rect((selection1*width/5)-120, 325-120, 240, 240); // the rectangle selecting the first option
+  rect((selection2*width/5)-120, 325-120, 240, 240); // the rectangle selecting the first option
+  noStroke();
+  fill(black); 
 }
 
 void level1() {
