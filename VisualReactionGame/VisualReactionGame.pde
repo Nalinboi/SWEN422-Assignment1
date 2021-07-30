@@ -97,24 +97,36 @@ void draw() {
     mainMenu();
   } else if (level == 1) { // If we are at level 1, then draw the reaction game
     level1();
+    goBackToMainMenu();
   } else { // If anything else, we should be at level 2, so we draw the results page
     results();
+    goBackToMainMenu();
   }
 }
+
+void goBackToMainMenu(){
+  textSize(24); 
+  fill(blue);
+  text("Press backspace to\n go back to main menu", width-150, 50);
+  textSize(32);
+}  
 
 void mainMenu() {
   background(white); // have to keep calling this so a new screen is rendered
   fill(black); // Fill colour is blue
   //textFont(title);
-  text("Main Menu:\n Click or press space to play the game", width/2, 100); // the title
+  text("Main Menu:\n Press space to play the game", width/2, 100); // the title
   
   
+  selectedOptions();
+}
+
+void selectedOptions(){
   textSize(64); // FIRST OPTION, GREEN AND RED
   fill(green);
   text("Green", width/5, 300);
   fill(red);
   text("Red", width/5, 400);
-  
   
   fill(black); // SECOND OPTION, BLACK AND WHITE
   text("Black", 2*width/5, 300);
@@ -136,13 +148,20 @@ void mainMenu() {
   rect((selection1*width/5)-120, 325-120, 240, 240); // the rectangle selecting the first option
   rect((selection2*width/5)-120, 325-120, 240, 240); // the rectangle selecting the first option
   noStroke();
-  fill(black); 
+  fill(black);  
+  
+  textSize(24);
+  text("(Press z to select)", width/5, 500);
+  text("(Press x to select)", 2*width/5, 500);
+  text("(Press n to select)", 3*width/5, 500);
+  text("(Press m to select)", 4*width/5, 500);
+  textSize(32);
 }
 
 void level1() {
   background(white);
   fill(black);
-  text("Click or press Space\n when shape turns Green", width/2, 100);
+  text("Press Space when\n shape changes colour", width/2, 100);
   if (millis() > randomAppearTime) { // After a random amount of time, change the shape colour
     if (colorOrBlack == "COLOR") {
       noStroke();
@@ -194,6 +213,8 @@ void results() {
       text("Slowest: " + Collections.min(reactionTimeResults), (width/2)+200, 350);
       text("Average: " + calculateAverage(), (width/2)+200, 400);
       //text("Deviation: ", (width/2)+200, 450);
+  } else {
+      text("(Need a min of\n5 trials to get results): ", (width/2)+200, 200);
   }
 }
 
