@@ -69,6 +69,8 @@ void keyPressed()
     nextLevel(); // If the user presses spacebar, the user will go to the next level
   } else if (keyCode == 27) { // 27 is ascii for escape - here you should use this to go to the main menu     
     nextLevel(); //
+  } else if (keyCode == 8) { // 08 is backspace
+    level = 0;
   }
 
   if (level == 0) {
