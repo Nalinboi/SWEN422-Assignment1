@@ -54,9 +54,7 @@ void nextLevel() {
     currentResult = shapeClickedTime - (randomAppearTime);
     if(currentResult > 0){ 
       reactionTimeResults.add(0, currentResult); // We append the result to the list of results if it was valid
-    }
-    
-    
+    }  
   } else { // Results page 
     level = 1; // If we are in the results page, the next level (1) will be the game again.
     randomAppearTime = millis() + random(2000, 8000); // This is when the shape will change colour
@@ -146,13 +144,27 @@ void level1() {
   fill(black);
   text("Click or press Space\n when shape turns Green", width/2, 100);
   if (millis() > randomAppearTime) { // After a random amount of time, change the shape colour
-    fill(green);
+    if (colorOrBlack == "COLOR") {
+      noStroke();
+      fill(green);
+    } else {
+      fill(black);
+    }
   }
   else { // Before the random time keep the colour as red
-    fill(red);
+    if (colorOrBlack == "COLOR") {
+      fill(red);
+    } else {
+      stroke(black);
+      strokeWeight(6);
+      fill(white);
+    }
   }
-  //rect(20, 110, width-50, height-130); // the rectangle you are supposed to click on for reaction times.
-  rect((width/2)-150, (height/2)-150, 300, 300); // the rectangle you are supposed to click on for reaction times.
+  if(squareOrCircle == "SQUARE") {
+    rect((width/2)-150, (height/2)-150, 300, 300); // the rectangle you are supposed to click on for reaction times.   
+  } else {  
+      ellipse((width/2), (height/2), 300, 300); // the rectangle you are supposed to click on for reaction times.   
+  }
 }
 
 void results() {
