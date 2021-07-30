@@ -209,8 +209,8 @@ void results() {
 
   if (resultsListSize == 5) {
       text("Summary of \nall good results: ", (width/2)+200, 200);
-      text("Fastest: " + Collections.max(reactionTimeResults), (width/2)+200, 300);
-      text("Slowest: " + Collections.min(reactionTimeResults), (width/2)+200, 350);
+      text("Fastest: " + Collections.min(reactionTimeResults), (width/2)+200, 300);
+      text("Slowest: " + Collections.max(reactionTimeResults), (width/2)+200, 350);
       text("Average: " + calculateAverage(), (width/2)+200, 400);
       //text("Deviation: ", (width/2)+200, 450);
   } else {
